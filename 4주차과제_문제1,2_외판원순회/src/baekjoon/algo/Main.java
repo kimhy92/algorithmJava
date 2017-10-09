@@ -22,7 +22,7 @@ public class Main {
 	static int n;
 	static int[][] graph;
 	static int[][] cache;
-	static int IMPOSSIBLE=100000000;
+	static int INFINITY=100000000;
 	
 	public static void main(String[] args) throws IOException {		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,24 +34,22 @@ public class Main {
 		// init
 		for(int i=0; i<n; i++) {
 			Arrays.fill(graph[i], 0);
-			Arrays.fill(cache[i], -1);
 			StringTokenizer st = new StringTokenizer(br.readLine());;
 			for(int j=0; j<n; j++)
 				graph[i][j]=Integer.parseInt(st.nextToken());
-			
 		}
 		
 		System.out.println(tsp(0,1));
 	}
-		
+	
 	public static int tsp(int current, int visited) {
 		if(visited== (1<<n)-1)	// 모두 방문한 경우, 현재 지점에서 시작지점으로 돌아가는 비용. 길이 없다면 IMPOSSIBLE을 리턴
-			return graph[current][0]!=0?graph[current][0]:IMPOSSIBLE;
+			return graph[current][0]!=0?graph[current][0]:INFINITY;
 		
-		int res = cache[current][visited];
-		if(res != -1) return res;	// 현재 시작점을 기준으로 다른  방문하지 않은 모든 마을을 방문하고 시작점으로 돌아가는 최소 비용을 이미 구한 경우에는 for문 돌리지 않고 그 값을 리턴
+		if(cache[current][visited]!=-1)
+			return cache[current][visited];
 		
-		res=IMPOSSIBLE;
+		int res=INFINITY;
 		
 		for(int i=0; i<n; i++) {
 			if((visited & (1<<i)) !=0 ) continue;	// 방문한 마을이면 continue
@@ -65,7 +63,6 @@ public class Main {
 			// graph[current][i]를 더해주는 이유는, tspRecur(i,~)가 i를 시작점으로 계산하기 때문에, 현재 마을에서 i마을로 가는 비용도 더해주는 것.
 			res = Math.min(res, tsp(i, visited | (1<<i)) + graph[current][i]);
 		}
-		
-		return res;
+		return res=cache[current][visited];
 	}
 }

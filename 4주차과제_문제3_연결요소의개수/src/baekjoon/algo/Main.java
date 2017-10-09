@@ -36,7 +36,10 @@ public class Main {
 		
 		for(int i=0; i<m; i++) {
 			StringTokenizer stk = new StringTokenizer(br.readLine());
-			graph[Integer.parseInt(stk.nextToken())][Integer.parseInt(stk.nextToken())]=1;
+			int a =Integer.parseInt(stk.nextToken());
+			int b = Integer.parseInt(stk.nextToken());
+			graph[a][b]=1;
+			graph[b][a]=1;
 		}
 		
 		System.out.println(solve());

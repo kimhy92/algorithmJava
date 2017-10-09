@@ -7,21 +7,11 @@
  * @History : 수정일, 수정자, 수정내용
  */ 
 
-package test;
+package reverse;
 
 public class Main {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-//		int i=0;
-//		for(i=0; i<5; i++)
-//			System.out.println(i);
-//		System.out.println(i);
-//		System.out.println("=======");
-//		for(i=0; i<5; ++i)
-//			System.out.println(i);
-//		System.out.println(i);
-		
+	public static void main(String[] args) {		
 		int[][] board=new int[][]{{1,2,3},{4,5,6},{7,8,9}};
 		for(int i=0; i<board.length; i++) {
 			for(int j=0; j<board[i].length; j++)
