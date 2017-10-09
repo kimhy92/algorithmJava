@@ -12,6 +12,8 @@ package two;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 /* 12100 : 2048 (Easy) 게임
@@ -31,6 +33,8 @@ import java.util.StringTokenizer;
 이렇게 되는데, 상상상상상 일 때 board의 최대값, 상상상상하 일 때 board의 최대값 ,.... 을 구해서 그 중에서
 최대값을 구하는 방법이기 때문에
 dfs로 탐색해야 한다.
+5. 블록을 움직이는 연산은 위방향 이동 / 왼쪽방향 이동일 때에만 한다. 아래방향/오른쪽방향은 각각 세로reverse, 가로reverse해서 하/좌와 같이 연산한다.
+
 */
 
 /*  http://baactree.tistory.com/12
@@ -68,6 +72,12 @@ public class Main {
 			}
 		}
 		
+		if(n==1) {
+			System.out.println(Math.max(0, board[0][0]));
+			return;
+		}
+		
+		solve(0,board);
 		System.out.println(max);
 	}
 	
@@ -87,6 +97,12 @@ public class Main {
 		// 각 for문별로 상/하/좌/우에 해당
 		// 이렇게 해줌으로써 상상상상상/ 상상상상하 / 상상상상좌 / 상상상상우 이렇게 재귀가 반복된다.
 		for(int i=0; i<move.length; i++) {
+			int[][] copyBoard=new int[n][n];
+			// 현재의 board 상태 저장
+			for(int j=0; j<n; j++)
+				for(int k=0; k<n; k++)
+					copyBoard[j][k]=board[j][k];
+					
 			// move[i]에 맞게 보드의 블럭들을 움직인다.(상 or 하 or 좌 or 우)
 			switch(i) {
 			case 1:	// 하. board 배열을 세로로 reverse만 해주고, case 0으로 넘어가서 상과 같은 연산 수행
@@ -109,20 +125,67 @@ public class Main {
 			
 			// 움직인 board를 넘겨주어서 재귀 (다음 상태로 dfs)
 			solve(cnt+1, board);
+			
+			// board를 다시 원래 상태로 돌려준다.
+			for(int j=0; j<n; j++)
+				for(int k=0; k<n; k++)
+					board[j][k]=copyBoard[j][k];
 		}
+		
 	}
 	
 	public static void moveBlock(int[][] board, int dir) {	// 0: 상 방향으로 이동, 1:좌 방향으로 이동
+		Queue<Integer> q=new LinkedList<Integer>();
 		switch(dir) {
-		case 0:
-			for(int i=0; i<board.length; i++) {
-				for(int j=0; j<board[i].length; j++) {
-					
+		case 0:	// 상
+			for(int i=0; i<n; i++){
+				for(int j=0; j<n; j++){
+					if(board[j][i]!=0)
+						q.add(board[j][i]);
+					board[j][i]=0;
+				}
+	 
+				int idx=0;
+				int popData;
+	 
+				while(!q.isEmpty()){
+					popData = q.poll();
+	 
+					if(board[idx][i]==0)
+						board[idx][i]=popData;
+					else if(board[idx][i]==popData){
+						board[idx][i]*=2;
+						idx++;
+					}
+					else
+						board[++idx][i]=popData;
 				}
 			}
 			break;
-		case 1:
-			
+		case 1:	// 좌
+			for (int i=0; i<n; i++){
+				for (int j=0; j<n; j++){
+					if (board[i][j]!=0)
+						q.add(board[i][j]);
+					board[i][j]=0;
+				}
+	 
+				int idx=0;
+				int popData;
+	 
+				while(!q.isEmpty()){
+					popData=q.poll();
+	                
+					if(board[i][idx]==0)
+						board[i][idx]=popData;
+					else if(board[i][idx]==popData){
+						board[i][idx]*=2;
+						idx++;
+					}
+					else
+						board[i][++idx]=popData;
+				}
+			}
 			break;
 		}
 	}
@@ -151,4 +214,166 @@ public class Main {
 		}
 	}	
 }
+
+
+/*
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+	static int max = 0;
+	static int n;
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		n = sc.nextInt();
+
+		int[][] map = new int[n][n];
+
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				map[i][j] = sc.nextInt();
+			}
+		}
+
+		dfs(0, map);
+
+		System.out.println(max);
+
+	}
+
+	private static void dfs(int index, int[][] map) {
+		
+		if (index == 5) {
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+					max = Math.max(max, map[i][j]);
+				}
+			}
+			return;
+		}
+
+		int[][] saved = new int[n][n];
+		// left
+		for (int i = 0; i < n; i++) {
+			int cur = 0;
+			int temp = 0;
+			for (int j = 0; j < n; j++) {
+				if (map[i][j] != 0) {
+					if(temp==0){
+						temp = map[i][j];
+					}else{
+						if(temp==map[i][j]){
+							saved[i][cur++] = 2*temp;
+							temp = 0;
+						}else{
+							saved[i][cur++] = temp;
+							temp = map[i][j];
+						}
+					}
+					
+				}
+			}
+			if(temp!=0){
+				saved[i][cur++] = temp;
+			}
+
+		}
+		
+		dfs(index + 1, saved);
+
+		saved = new int[n][n];
+		//right
+		for (int i = 0; i < n; i++) {
+			int cur = n-1;
+			int temp = 0;
+			for (int j = n-1; j >=0; j--) {
+				if (map[i][j] != 0) {
+					if(temp==0){
+						temp = map[i][j];
+					}else{
+						if(temp==map[i][j]){
+							saved[i][cur--] = 2*temp;
+							temp = 0;
+						}else{
+							saved[i][cur--] = temp;
+							temp = map[i][j];
+						}
+					}
+					
+				}
+			}
+			if(temp!=0){
+				saved[i][cur] = temp;
+			}
+
+		}
+	
+		dfs(index + 1, saved);
+
+		saved = new int[n][n];
+		// down
+		for (int i = 0; i < n; i++) {
+			int cur = n-1;
+			int temp = 0;
+			for (int j = n-1; j >=0; j--) {
+				if (map[j][i] != 0) {
+					if(temp==0){
+						temp = map[j][i];
+					}else{
+						if(temp==map[j][i]){
+							saved[cur--][i] = 2*temp;
+							temp = 0;
+						}else{
+							saved[cur--][i] = temp;
+							temp = map[j][i];
+						}
+					}
+					
+				}
+			}
+			if(temp!=0){
+				saved[cur][i] = temp;
+			}
+
+		}
+		
+		dfs(index + 1, saved);
+
+		saved = new int[n][n];
+		
+		for (int i = 0; i < n; i++) {
+			int cur = 0;
+			int temp = 0;
+			for (int j = 0; j < n; j++) {
+				if (map[j][i] != 0) {
+					if(temp==0){
+						temp = map[j][i];
+					}else{
+						if(temp==map[j][i]){
+							saved[cur++][i] = 2*temp;
+							temp = 0;
+						}else{
+							saved[cur++][i] = temp;
+							temp = map[j][i];
+						}
+					}
+					
+				}
+			}
+			if(temp!=0){
+				saved[cur++][i] = temp;
+			}
+
+		}
+
+		dfs(index + 1, saved);
+
+	}
+
+}
+
+ * 
+ */
 
