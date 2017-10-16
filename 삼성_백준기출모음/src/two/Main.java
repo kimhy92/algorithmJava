@@ -54,7 +54,6 @@ public class Main {
 	static int n;
 	static int NONE=0;				// 블록에 숫자가 없는 경우
 	static int max=0;				// 결과값(최대 5회 이동으로 만들 수 있는 최대값)
-	static int[][] move={{-1,0},{1,0},{0,-1},{0,1}};	//상,하,좌,우
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -96,7 +95,7 @@ public class Main {
 		
 		// 각 for문별로 상/하/좌/우에 해당
 		// 이렇게 해줌으로써 상상상상상/ 상상상상하 / 상상상상좌 / 상상상상우 이렇게 재귀가 반복된다.
-		for(int i=0; i<move.length; i++) {
+		for(int i=0; i<4; i++) {
 			int[][] copyBoard=new int[n][n];
 			// 현재의 board 상태 저장
 			for(int j=0; j<n; j++)
