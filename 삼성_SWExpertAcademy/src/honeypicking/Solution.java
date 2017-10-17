@@ -49,11 +49,11 @@ public class Solution {
 			for(int j=0; j<=N-M; j++)
 				r[i][j]=getPSum(0,i,j,0,0);
 		
-		// 최대값을 기준으로 두번째로 큰 수익을 구하고 리턴한다.
 		for(int i=0; i<N; i++) {
 			for(int j=0; j<=N-M; j++) {
 				// (i,j)와 동시에 선택 가능한 벌통 중에서 최대 수익을 낼 수 있는 벌통의 수익을 구한다.
 				sum=r[i][j]+getMaxPair(i,j);
+				// 그리고 그 중에서 최대값을 구한다.
 				max=Math.max(max, sum);
 			}
 		}
@@ -86,9 +86,12 @@ public class Solution {
 	
 	static int getMaxPair(int row, int col) {
 		int maxR=0;
+		
+		// 같은 행에서 겹치지 않는 최대값
 		for(int j=col+M; j<=N-M; j++)
 			if(maxR<r[row][j]) maxR=r[row][j];
 		
+		// 다른 행에서 최대값. 다른 행은 겹칠 일이 없으니까 겹치는 경우는 고려하지 않아도 된다.
 		for(int i=row+1; i<N; i++) {
 			for(int j=0; j<=N-M; j++) {
 				if(maxR<r[i][j]) maxR=r[i][j];

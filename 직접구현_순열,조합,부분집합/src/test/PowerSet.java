@@ -5,7 +5,7 @@ import java.io.IOException;
 // 부분집합 : 최적의 답이 전체 값들의 부분 집합인 알고리즘들이 존재
 // 대표적으로 배낭 문제 같은 경우, 완전 검색을 하기 위해 모든 부분집합을 생성함으로써 해를 찾을 수 있는 문제
 // 여기에 탐욕 기법과 동적 계획법을 추가하여 계산 횟수를 줄일 수 있다.
-public class SubSet {
+public class PowerSet {
 	static int[] arr=new int[]{3,6,7,1};
 	static int n=4;
 	static int[] bitAry=new int[n];	// 배열로 bit체크
@@ -56,6 +56,10 @@ public class SubSet {
 //	}
 //	System.out.println("}");
 //}
+	/*
+	m : 포함할지 말지를 결정한 횟수
+	
+	 */
 	public static void printSubset(int m) {
 		if(m==n) {	// 부분집합 완성
 			StringBuilder sb=new StringBuilder("");
