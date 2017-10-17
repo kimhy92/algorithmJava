@@ -1,8 +1,6 @@
 package test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 // 부분집합 : 최적의 답이 전체 값들의 부분 집합인 알고리즘들이 존재
 // 대표적으로 배낭 문제 같은 경우, 완전 검색을 하기 위해 모든 부분집합을 생성함으로써 해를 찾을 수 있는 문제
@@ -10,7 +8,8 @@ import java.io.InputStreamReader;
 public class SubSet {
 	static int[] arr=new int[]{3,6,7,1};
 	static int n=4;
-	static int[] bit=new int[n];
+	static int[] bitAry=new int[n];	// 배열로 bit체크
+	static int bit=1<<n;			// 비트마스크 (or 바이너리 카운팅)
 	
 	public static void main(String[] args) throws IOException {
 		// num=0 to 15(2^n-1)
@@ -24,7 +23,7 @@ public class SubSet {
 //			System.out.println("}");
 //		}
 		
-		printSubset();
+		printSubset(0);
 		
 		// 아래와 같은 방식으로 n의 개수에 따라 n중for문이 되야 함
 		// 따라서 n이 어떤 값인지 알 수 없으면 아래와 같은 방식으로 구현할 수 없음
@@ -48,9 +47,44 @@ public class SubSet {
 //			}
 //		}
 	}
-	
-	public static void printSubset() {
+//	for(int num=0; num<(1<<n); num++) {
+//	// i=0 to 3
+//	System.out.print("{");
+//	for(int i=0; i<n; i++) {
+//		if((num&(1<<i))==(1<<i))
+//			System.out.print(""+arr[i]+",");
+//	}
+//	System.out.println("}");
+//}
+	public static void printSubset(int m) {
+		if(m==n) {	// 부분집합 완성
+			StringBuilder sb=new StringBuilder("");
+			sb.append("{");
+			for(int i=0; i<n; i++) {
+				if((bit&(1<<i))==1<<i) {
+					sb.append(arr[i]+",");
+				}
+			}
+			sb.replace(sb.toString().length()-1, sb.toString().length(), "}");
+			System.out.println(sb.toString());
+			return;
+		}
 		
+		int tmp=bit;
+		printSubset(m+1);
+		bit=bit|(1<<m);
+		printSubset(m+1);
+		bit=tmp;
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
