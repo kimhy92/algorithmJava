@@ -27,8 +27,8 @@ public class Combination {
 			return;
 		else {
 			tr[r-1]=an[n-1];
-			comb(n-1,r-1);
-			comb(n-1,r);
+			comb(n-1,r-1);	// 선택하는 경우
+			comb(n-1,r);	// 선택하지 않은 경우
 		}
 	}
 }

@@ -56,6 +56,7 @@ public class Solution {
 	   		따라서 최초에는 메모제이션을 적용하지 않고 풀어본다.?
 	   		가능한 모든 경우의 수에는 이 모든 경우가 포함되어 있다.
 	- tickets[] 배열은 항상 복구 해 주어야 한다. 재귀 호출에 의해 모든 배열의 값이 바뀌기 때문
+	- 재귀 호출한 후 다시 복구하는 것 -> 백트래킹으로 하는 것임
 	*/
 	
 	public static void main(String[] args) throws IOException {
