@@ -7,7 +7,7 @@
  * @History : 수정일, 수정자, 수정내용
  */ 
 
-package lunchtime;
+package fail.lunchtime;
 
 import java.io.BufferedReader;
 import java.io.IOException;

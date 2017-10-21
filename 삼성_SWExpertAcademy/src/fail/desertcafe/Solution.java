@@ -7,7 +7,7 @@
  * @History : 수정일, 수정자, 수정내용
  */ 
 
-package desertcafe;
+package fail.desertcafe;
 
 import java.io.BufferedReader;
 import java.io.IOException;
