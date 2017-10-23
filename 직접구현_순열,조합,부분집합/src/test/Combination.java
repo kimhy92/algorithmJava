@@ -22,11 +22,12 @@ public class Combination {
 			for(int i=0; i<3; i++)
 				System.out.print(tr[i]);
 			System.out.println();
+			return;
 		}
 		else if(n<r)
 			return;
 		else {
-			tr[r-1]=an[n-1];
+			tr[r-1]=n-1;
 			comb(n-1,r-1);	// 선택하는 경우
 			comb(n-1,r);	// 선택하지 않은 경우
 		}

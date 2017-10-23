@@ -75,9 +75,9 @@ public class PowerSet {
 		}
 		
 		int tmp=bit;
-		printSubset(m+1);
+		printSubset(m+1);	// 부분집합으로 포함하지 않는 경우
 		bit=bit|(1<<m);
-		printSubset(m+1);
+		printSubset(m+1);	// 부분집합으로 포함하는 경우
 		bit=tmp;
 	}
 	
